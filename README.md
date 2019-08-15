@@ -1,4 +1,5 @@
-# UTM dart
+# UTM dart  
+Lat Lon and UTM bidirectional converter  
 
 ## Usage
 

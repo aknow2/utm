@@ -1,8 +1,9 @@
 name: utm
-description: A starting point for Dart libraries or applications.
+description: This is a Lat Lon and UTM bidirectional converter
+
 # version: 1.0.0
 # homepage: https://www.example.com
-# author: 金山智昭 <kanayamatomoaki@kanayamatomoakinoiMac-2.local>
+# author: tomoaki kanayama
 
 environment:
   sdk: '>=2.4.0 <3.0.0'
