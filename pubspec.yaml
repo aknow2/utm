@@ -1,15 +1,16 @@
 name: utm
 description: This is a Lat Lon and UTM bidirectional converter
 
-# version: 0.0.1
-# homepage: https://github.com/aknow2/utm
-# author: tomoaki kanayama
+version: 0.0.1
+homepage: https://github.com/aknow2/utm
+author: tomoaki kanayama <tmknym@aknow2.com>
 
 environment:
   sdk: '>=2.4.0 <3.0.0'
 
 dependencies:
   angles: ^1.2.1
+  meta: ^1.1.7
 
 dev_dependencies:
   pedantic: ^1.7.0
