@@ -2,7 +2,7 @@ name: utm
 description: This is a Lat Lon and UTM bidirectional converter
 
 # version: 1.0.0
-# homepage: https://www.example.com
+# homepage: https://github.com/aknow2/utm
 # author: tomoaki kanayama
 
 environment:

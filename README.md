@@ -1,5 +1,6 @@
 # UTM dart  
-Lat Lon and UTM bidirectional converter  
+Lat Lon and UTM bidirectional converter.  
+translate from [Python UTM library](https://github.com/Turbo87/utm)
 
 ## Usage
 

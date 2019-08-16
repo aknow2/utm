@@ -1,20 +1,19 @@
 import 'package:utm/utm.dart';
 
 main() {
-  final utm = Utm.fromLatLon(-30, -150);
+  final utm = UTM.fromLatLon(lat: -30, lon: -150);
   print('zone: ${utm.zone}');
   print('N: ${utm.northing}');
   print('E: ${utm.easting}');
   print('lat: ${utm.lat}');
   print('lat: ${utm.lon}');
 
-  final latlon = Utm.fromUtm(
-    utm.easting,
-    utm.northing,
-    utm.zoneNumber,
-    utm.zoneLetter,
+  final latlon = UTM.fromUtm(
+    easting: utm.easting,
+    northing: utm.northing,
+    zoneNumber: utm.zoneNumber,
+    zoneLetter: utm.zoneLetter,
   );
-
   print('lat: ${latlon.lat}');
   print('lon: ${latlon.lon}');
 }

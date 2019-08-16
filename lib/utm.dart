@@ -4,4 +4,5 @@
 
 library utm;
 
+export 'src/constants.dart';
 export 'src/utm_base.dart';
