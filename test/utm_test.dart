@@ -11,7 +11,10 @@ void main() {
   });
   test('utm to lat lon Test in tokyo', () {
     final utm = UTM.fromUtm(
-      easting: 387203.09, northing: 3953623.37, zoneNumber:54, zoneLetter: 'S');
+        easting: 387203.09,
+        northing: 3953623.37,
+        zoneNumber: 54,
+        zoneLetter: 'S');
     expect(utm.northing, closeTo(3953623.37, 0.1));
     expect(utm.easting, closeTo(387203.09, 0.1));
     expect(utm.zone, equals('54S'));

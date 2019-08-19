@@ -9,41 +9,38 @@ class _GeoSysParam {
   _GeoSysParam(this.r, this.e);
 }
 
-final Map<GeodeticSystemType, _GeoSysParam> _geoSysMap  = {
-  GeodeticSystemType.wgs84 : _GeoSysParam(6378137, 0.00669438),
-  GeodeticSystemType.grs80 : _GeoSysParam(6378137	, 0.00669438),
-  GeodeticSystemType.bessel : _GeoSysParam(6377397.155, 0.00667437),
+final Map<GeodeticSystemType, _GeoSysParam> _geoSysMap = {
+  GeodeticSystemType.wgs84: _GeoSysParam(6378137, 0.00669438),
+  GeodeticSystemType.grs80: _GeoSysParam(6378137, 0.00669438),
+  GeodeticSystemType.bessel: _GeoSysParam(6377397.155, 0.00667437),
 };
 
-/// 
+///
 class UtmResult {
-
   /// Latitude
   final double lat;
+
   /// Longitude
   final double lon;
+
   /// the eastward-measured distance. (x-coordinate)
   final double easting;
+
   /// northward-measured distance. (y-coordinate)
   final double northing;
+
   /// zone number
   final int zoneNumber;
+
   /// zone letter
   final String zoneLetter;
+
   /// zone ex) 60S 50H
   String get zone => zoneNumber.toString() + zoneLetter;
 
-  const UtmResult._(
-    this.lat,
-    this.lon,
-    this.easting,
-    this.northing,
-    this.zoneNumber,
-    this.zoneLetter
-  );
-
+  const UtmResult._(this.lat, this.lon, this.easting, this.northing,
+      this.zoneNumber, this.zoneLetter);
 }
-
 
 /// UTM bidirectional converter
 class UtmConverter {
@@ -76,7 +73,7 @@ class UtmConverter {
   UtmConverter(GeodeticSystemType type) {
     final param = _geoSysMap[type];
     _r = param.r;
-    _e =  param.e; //;
+    _e = param.e;
     _e2 = _e * _e;
     _e3 = _e2 * _e;
     _eP2 = _e / (1.0 - _e);
@@ -211,8 +208,8 @@ class UtmConverter {
                                 600 * c -
                                 330 * _eP2))) +
         offset;
-    return UtmResult
-      ._(lat, lon, easting, northing, zoneNumber, _lat2zoneLetter(lat));
+    return UtmResult._(
+        lat, lon, easting, northing, zoneNumber, _lat2zoneLetter(lat));
   }
 
   String _lat2zoneLetter(double lat) {
@@ -224,20 +221,18 @@ class UtmConverter {
   }
 }
 
-
-
 int _latlon2zoneNumber(double lat, double lon) {
   if (56 <= lat && lat < 64 && 3 <= lon && lon < 12) {
     return 32;
   }
   if (72 <= lat && lat <= 84 && lon >= 0) {
-    if (lon <  9) {
+    if (lon < 9) {
       return 31;
-    } else if (lon < 21 ) {
+    } else if (lon < 21) {
       return 33;
-    } else if(lon < 33 ) {
+    } else if (lon < 33) {
       return 35;
-    } else if(lon < 42 ) {
+    } else if (lon < 42) {
       return 37;
     }
   }
