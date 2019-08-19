@@ -16,4 +16,13 @@ main() {
   );
   print('lat: ${latlon.lat}');
   print('lon: ${latlon.lon}');
+
+  UTM.fromLatLon(lat: -30, lon: -150, type: GeodeticSystemType.bessel);
+  UTM.fromUtm(
+    easting: utm.easting,
+    northing: utm.northing,
+    zoneNumber: utm.zoneNumber,
+    zoneLetter: utm.zoneLetter,
+    type: GeodeticSystemType.grs80,
+  );
 }

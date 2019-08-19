@@ -1,5 +1,5 @@
 name: utm
-description: This is a Lat Lon and UTM bidirectional converter
+description: This is a Lat Lon and UTM bidirectional converter.
 
 version: 0.0.1
 homepage: https://github.com/aknow2/utm
