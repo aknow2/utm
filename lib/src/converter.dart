@@ -45,7 +45,6 @@ class UtmResult {
 /// UTM bidirectional converter
 class UtmConverter {
   final _k0 = 0.9996;
-  final _zoneLetter = "CDEFGHJKLMNPQRSTUVWXX";
   double _r;
   double _e;
   double _e2;
@@ -214,7 +213,7 @@ class UtmConverter {
 
   String _lat2zoneLetter(double lat) {
     if (-80 <= lat && lat <= 84) {
-      return _zoneLetter[(lat + 80).toInt() >> 3];
+      return zoneLetters[(lat + 80).toInt() >> 3];
     } else {
       return '';
     }

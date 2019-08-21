@@ -6,6 +6,7 @@ import 'package:utm/src/constants.dart';
 
 /// This is a lat lon and UTM bidirectional converter
 import 'package:utm/src/converter.dart';
+import 'package:utm/src/validator.dart';
 
 /// UTM
 class UTM {
@@ -21,6 +22,11 @@ class UTM {
       @required int zoneNumber,
       @required String zoneLetter,
       GeodeticSystemType type = GeodeticSystemType.wgs84}) {
+    validateUtmZone(
+        easting: easting,
+        northing: northing,
+        zoneLetter: zoneLetter,
+        zoneNumber: zoneNumber);
     return UtmConverter(type)
         .utmToLatLon(easting, northing, zoneNumber, zoneLetter);
   }
@@ -33,6 +39,7 @@ class UTM {
       {@required double lat,
       @required double lon,
       GeodeticSystemType type = GeodeticSystemType.wgs84}) {
+    validateRangeOfLatLon(lat: lat, lon: lon);
     return UtmConverter(type).latlonToUtm(lat, lon);
   }
 }

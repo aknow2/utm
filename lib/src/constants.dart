@@ -9,3 +9,6 @@ enum GeodeticSystemType {
   /// bessel R=6377397.155 e=0.00667437
   bessel
 }
+
+/// zone letters
+final zoneLetters = "CDEFGHJKLMNPQRSTUVWXX";
