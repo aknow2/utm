@@ -12,3 +12,33 @@ enum GeodeticSystemType {
 
 /// zone letters
 final zoneLetters = "CDEFGHJKLMNPQRSTUVWXX";
+
+///
+class UtmCoordinate {
+  /// Latitude
+  final double lat;
+
+  /// Longitude
+  final double lon;
+
+  /// the eastward-measured distance. (x-coordinate)
+  final double easting;
+
+  /// northward-measured distance. (y-coordinate)
+  final double northing;
+
+  /// zone number
+  final int zoneNumber;
+
+  /// zone letter
+  final String zoneLetter;
+
+  /// zone ex) 60S 50H
+  String get zone => zoneNumber.toString() + zoneLetter;
+
+  /// constructor
+  const UtmCoordinate(this.lat, this.lon, this.easting, this.northing,
+      this.zoneNumber, this.zoneLetter);
+}
+
+

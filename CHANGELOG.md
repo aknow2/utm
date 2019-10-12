@@ -8,3 +8,5 @@
 - add arguments validator
 ## 0.1.1
 - down grade meta package. because Flutter dependency version 1.1.6 meta package
+## 0.1.2
+- export UtmCoordinate

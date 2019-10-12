@@ -15,33 +15,6 @@ final Map<GeodeticSystemType, _GeoSysParam> _geoSysMap = {
   GeodeticSystemType.bessel: _GeoSysParam(6377397.155, 0.00667437),
 };
 
-///
-class UtmResult {
-  /// Latitude
-  final double lat;
-
-  /// Longitude
-  final double lon;
-
-  /// the eastward-measured distance. (x-coordinate)
-  final double easting;
-
-  /// northward-measured distance. (y-coordinate)
-  final double northing;
-
-  /// zone number
-  final int zoneNumber;
-
-  /// zone letter
-  final String zoneLetter;
-
-  /// zone ex) 60S 50H
-  String get zone => zoneNumber.toString() + zoneLetter;
-
-  const UtmResult._(this.lat, this.lon, this.easting, this.northing,
-      this.zoneNumber, this.zoneLetter);
-}
-
 /// UTM bidirectional converter
 class UtmConverter {
   final _k0 = 0.9996;
@@ -96,7 +69,7 @@ class UtmConverter {
   }
 
   /// convert to lat&lon from UTM
-  UtmResult utmToLatLon(
+  UtmCoordinate utmToLatLon(
       double easting, double northing, int zoneNumber, String zoneLetter) {
     final northern = zoneLetter != null &&
         zoneLetter.toUpperCase().codeUnitAt(0) >= 'N'.codeUnitAt(0);
@@ -151,7 +124,7 @@ class UtmConverter {
                 (5 - 2 * c + 28 * pTan2 - 3 * c2 + 8 * _eP2 + 24 * pTan4)) /
         pCos;
 
-    return UtmResult._(
+    return UtmCoordinate(
         Angle.fromRadians(lat).degrees,
         Angle.fromRadians(lon).degrees + _zoneNumber2CentralLon(zoneNumber),
         easting,
@@ -161,7 +134,7 @@ class UtmConverter {
   }
 
   /// convert to UTM from lat&lon
-  UtmResult latlonToUtm(double lat, double lon) {
+  UtmCoordinate latlonToUtm(double lat, double lon) {
     final latRad = Angle.fromDegrees(lat).radians;
     final latSin = math.sin(latRad);
     final latCos = math.cos(latRad);
@@ -207,7 +180,7 @@ class UtmConverter {
                                 600 * c -
                                 330 * _eP2))) +
         offset;
-    return UtmResult._(
+    return UtmCoordinate(
         lat, lon, easting, northing, zoneNumber, _lat2zoneLetter(lat));
   }
 

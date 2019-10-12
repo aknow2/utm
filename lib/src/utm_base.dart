@@ -10,13 +10,13 @@ import 'package:utm/src/validator.dart';
 
 /// UTM
 class UTM {
-  /// create [UtmResult] from UTM coordinates.
+  /// create [UtmCoordinate] from UTM coordinates.
   /// [easting] easting value. x-coordinate
   /// [northing] northing value. y-coordinate
   /// [zoneNumber] number of UTM zone. 1 to 60
   /// [zoneLetter] String value of UTM zone. CDEFGHJKLMNPQRSTUVWXX
   /// [type] type of Geodetic System. Default is WGS84. see [GeodeticSystemType]
-  static UtmResult fromUtm(
+  static UtmCoordinate fromUtm(
       {@required double easting,
       @required double northing,
       @required int zoneNumber,
@@ -31,11 +31,11 @@ class UTM {
         .utmToLatLon(easting, northing, zoneNumber, zoneLetter);
   }
 
-  /// create [UtmResult] from latitude & longitude
+  /// create [UtmCoordinate] from latitude & longitude
   /// [lat] latitude between -80 and 84 deg
   /// [lon] longitude between -180 and 180 deg
   /// [type] type of Geodetic System. Default is WGS84. see [GeodeticSystemType]
-  static UtmResult fromLatLon(
+  static UtmCoordinate fromLatLon(
       {@required double lat,
       @required double lon,
       GeodeticSystemType type = GeodeticSystemType.wgs84}) {
