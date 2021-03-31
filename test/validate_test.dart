@@ -1,6 +1,5 @@
-import 'package:utm/src/converter.dart';
-import 'package:utm/utm.dart';
 import 'package:test/test.dart';
+import 'package:utm/utm.dart';
 
 void main() {
   test('lat range test', () {

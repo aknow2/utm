@@ -11,7 +11,7 @@ enum GeodeticSystemType {
 }
 
 /// zone letters
-final zoneLetters = "CDEFGHJKLMNPQRSTUVWXX";
+final zoneLetters = 'CDEFGHJKLMNPQRSTUVWXX';
 
 ///
 class UtmCoordinate {
@@ -40,5 +40,3 @@ class UtmCoordinate {
   const UtmCoordinate(this.lat, this.lon, this.easting, this.northing,
       this.zoneNumber, this.zoneLetter);
 }
-
-

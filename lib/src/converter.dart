@@ -18,33 +18,33 @@ final Map<GeodeticSystemType, _GeoSysParam> _geoSysMap = {
 /// UTM bidirectional converter
 class UtmConverter {
   final _k0 = 0.9996;
-  double _r;
-  double _e;
-  double _e2;
-  double _e3;
-  double _eP2;
+  late double _r;
+  late double _e;
+  late double _e2;
+  late double _e3;
+  late double _eP2;
 
-  double _sqrtE;
-  double __e;
-  double __e2;
-  double __e3;
-  double __e4;
-  double __e5;
+  late double _sqrtE;
+  late double __e;
+  late double __e2;
+  late double __e3;
+  late double __e4;
+  late double __e5;
 
-  double _m1;
-  double _m2;
-  double _m3;
-  double _m4;
+  late double _m1;
+  late double _m2;
+  late double _m3;
+  late double _m4;
 
-  double _p2;
-  double _p3;
-  double _p4;
-  double _p5;
+  late double _p2;
+  late double _p3;
+  late double _p4;
+  late double _p5;
 
   /// constructor
   UtmConverter(GeodeticSystemType type) {
     final param = _geoSysMap[type];
-    _r = param.r;
+    _r = param!.r;
     _e = param.e;
     _e2 = _e * _e;
     _e3 = _e2 * _e;
@@ -70,7 +70,7 @@ class UtmConverter {
 
   /// convert to lat&lon from UTM
   UtmCoordinate utmToLatLon(
-      double easting, double northing, int zoneNumber, String zoneLetter) {
+      double easting, double northing, int zoneNumber, String? zoneLetter) {
     final northern = zoneLetter != null &&
         zoneLetter.toUpperCase().codeUnitAt(0) >= 'N'.codeUnitAt(0);
     final x = easting - 500000;
@@ -125,26 +125,27 @@ class UtmConverter {
         pCos;
 
     return UtmCoordinate(
-        Angle.fromRadians(lat).degrees,
-        Angle.fromRadians(lon).degrees + _zoneNumber2CentralLon(zoneNumber),
-        easting,
-        northing,
-        zoneNumber,
-        zoneLetter);
+      Angle.radians(lat).degrees,
+      Angle.radians(lon).degrees + _zoneNumber2CentralLon(zoneNumber),
+      easting,
+      northing,
+      zoneNumber,
+      zoneLetter!,
+    );
   }
 
   /// convert to UTM from lat&lon
   UtmCoordinate latlonToUtm(double lat, double lon) {
-    final latRad = Angle.fromDegrees(lat).radians;
+    final latRad = Angle.degrees(lat).radians;
     final latSin = math.sin(latRad);
     final latCos = math.cos(latRad);
     final latTan = latSin / latCos;
     final latTan2 = latTan * latTan;
     final latTan4 = latTan2 * latTan2;
     final zoneNumber = _latlon2zoneNumber(lat, lon);
-    final lonRad = Angle.fromDegrees(lon).radians;
+    final lonRad = Angle.degrees(lon).radians;
     final centralLon = _zoneNumber2CentralLon(zoneNumber);
-    final centralLonRad = Angle.fromDegrees(centralLon).radians;
+    final centralLonRad = Angle.degrees(centralLon).radians;
 
     final n = _r / math.sqrt(1 - _e * math.pow(latSin, 2));
     final c = _eP2 * math.pow(latCos, 2);

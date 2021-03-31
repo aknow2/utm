@@ -1,6 +1,6 @@
 import 'package:utm/utm.dart';
 
-main() {
+void main() {
   final utm = UTM.fromLatLon(lat: -30, lon: -150);
   print('zone: ${utm.zone}');
   print('N: ${utm.northing}');
