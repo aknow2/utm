@@ -185,6 +185,66 @@ class UtmConverter {
         lat, lon, easting, northing, zoneNumber, _lat2zoneLetter(lat));
   }
 
+  /// convert to list of UTM from list of lat&lon
+  List<UtmCoordinate> multipleLatlonToUtm(List<double> lat, List<double> lon) {
+    var utmCoordinates = <UtmCoordinate>[];
+    final zoneNumber = _latlon2zoneNumber(lat[0], lon[0]);
+    final zoneLetter = _lat2zoneLetter(lat[0]);
+
+    for (var i = 0; i < lat.length; i++) {
+      final latRad = Angle.degrees(lat[i]).radians;
+      final latSin = math.sin(latRad);
+      final latCos = math.cos(latRad);
+      final latTan = latSin / latCos;
+      final latTan2 = latTan * latTan;
+      final latTan4 = latTan2 * latTan2;
+      final lonRad = Angle.degrees(lon[i]).radians;
+      final centralLon = _zoneNumber2CentralLon(zoneNumber);
+      final centralLonRad = Angle.degrees(centralLon).radians;
+
+      final n = _r / math.sqrt(1 - _e * math.pow(latSin, 2));
+      final c = _eP2 * math.pow(latCos, 2);
+      final a = latCos * (lonRad - centralLonRad);
+      final a2 = a * a;
+      final a3 = a2 * a;
+      final a4 = a3 * a;
+      final a5 = a4 * a;
+      final a6 = a5 * a;
+      final m = _r *
+          (_m1 * latRad -
+              _m2 * math.sin(2 * latRad) +
+              _m3 * math.sin(4 * latRad) -
+              _m4 * math.sin(6 * latRad));
+      final easting = _k0 *
+              n *
+              (a +
+                  a3 / 6 * (1 - latTan2 + c) +
+                  a5 /
+                      120 *
+                      (5 - 18 * latTan2 + latTan4 + 72 * c - 58 * _eP2)) +
+          500000;
+      final offset = lat[i] >= 0 ? 0 : 10000000;
+      final northing = _k0 *
+              (m +
+                  n *
+                      latTan *
+                      (a2 / 2 +
+                          a4 / 24 * (5 - latTan2 + 9 * c + 4 * math.pow(c, 2)) +
+                          a6 /
+                              720 *
+                              (61 -
+                                  58 * latTan2 +
+                                  latTan4 +
+                                  600 * c -
+                                  330 * _eP2))) +
+          offset;
+
+      utmCoordinates.add(UtmCoordinate(
+          lat[i], lon[i], easting, northing, zoneNumber, zoneLetter));
+    }
+    return utmCoordinates;
+  }
+
   String _lat2zoneLetter(double lat) {
     if (-80 <= lat && lat <= 84) {
       return zoneLetters[(lat + 80).toInt() >> 3];
