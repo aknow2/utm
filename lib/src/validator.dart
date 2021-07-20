@@ -40,3 +40,14 @@ void validateUtmZone({
     throw ArgumentError.value(zoneLetter);
   }
 }
+
+/// validate length of list of lat and lon
+void validateLengthListOfLatLon({
+  required List<double> lat,
+  required List<double> lon,
+}) {
+  if (lat.length != lon.length) {
+    throw ArgumentError(
+        'The length of the lat and lon arguments must be match');
+  }
+}

@@ -50,4 +50,17 @@ void main() {
     expect(utm.zoneLetter, equals('X'));
     expect(utm.zoneNumber, equals(37));
   });
+
+  test('multiple latlon to utm Test in zone 32', () {
+    final utms = UTM.fromMultipleLatLon(
+        lat: [57.452869, 57.452869], lon: [10.021325, 14.000000]);
+    expect(utms[0].zoneLetter, equals('V'));
+    expect(utms[0].zoneNumber, equals(32));
+    expect(utms[1].zoneLetter, equals('V'));
+    expect(utms[1].zoneNumber, equals(32));
+    expect(utms[0].easting, closeTo(561286.37220385, 0.1));
+    expect(utms[0].northing, closeTo(6368259.47923512, 0.1));
+    expect(utms[1].easting, closeTo(799879.76122786, 0.1));
+    expect(utms[1].northing, closeTo(6378839.86148105, 0.1));
+  });
 }

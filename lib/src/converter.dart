@@ -9,6 +9,13 @@ class _GeoSysParam {
   _GeoSysParam(this.r, this.e);
 }
 
+class _EastingAndNorthing {
+  final double easting;
+  final double northing;
+
+  _EastingAndNorthing(this.easting, this.northing);
+}
+
 final Map<GeodeticSystemType, _GeoSysParam> _geoSysMap = {
   GeodeticSystemType.wgs84: _GeoSysParam(6378137, 0.00669438),
   GeodeticSystemType.grs80: _GeoSysParam(6378137, 0.00669438),
@@ -136,13 +143,45 @@ class UtmConverter {
 
   /// convert to UTM from lat&lon
   UtmCoordinate latlonToUtm(double lat, double lon) {
+    final zoneLetter = _lat2zoneLetter(lat);
+    final zoneNumber = _latlon2zoneNumber(lat, lon);
+
+    final eastingAndNorthing =
+        _calculateEastingNorthing(lat, lon, zoneNumber, zoneLetter);
+
+    return UtmCoordinate(lat, lon, eastingAndNorthing.easting,
+        eastingAndNorthing.northing, zoneNumber, _lat2zoneLetter(lat));
+  }
+
+  /// convert to list of UTM from list of lat&lon
+  List<UtmCoordinate> multipleLatlonToUtm(List<double> lat, List<double> lon) {
+    var utmCoordinates = <UtmCoordinate>[];
+    final zoneNumber = _latlon2zoneNumber(lat[0], lon[0]);
+    final zoneLetter = _lat2zoneLetter(lat[0]);
+
+    for (var i = 0; i < lat.length; i++) {
+      final eastingAndNorthing =
+          _calculateEastingNorthing(lat[i], lon[i], zoneNumber, zoneLetter);
+
+      utmCoordinates.add(UtmCoordinate(
+          lat[i],
+          lon[i],
+          eastingAndNorthing.easting,
+          eastingAndNorthing.northing,
+          zoneNumber,
+          zoneLetter));
+    }
+    return utmCoordinates;
+  }
+
+  _EastingAndNorthing _calculateEastingNorthing(
+      lat, lon, zoneNumber, zoneLetter) {
     final latRad = Angle.degrees(lat).radians;
     final latSin = math.sin(latRad);
     final latCos = math.cos(latRad);
     final latTan = latSin / latCos;
     final latTan2 = latTan * latTan;
     final latTan4 = latTan2 * latTan2;
-    final zoneNumber = _latlon2zoneNumber(lat, lon);
     final lonRad = Angle.degrees(lon).radians;
     final centralLon = _zoneNumber2CentralLon(zoneNumber);
     final centralLonRad = Angle.degrees(centralLon).radians;
@@ -181,8 +220,7 @@ class UtmConverter {
                                 600 * c -
                                 330 * _eP2))) +
         offset;
-    return UtmCoordinate(
-        lat, lon, easting, northing, zoneNumber, _lat2zoneLetter(lat));
+    return _EastingAndNorthing(easting, northing);
   }
 
   String _lat2zoneLetter(double lat) {
