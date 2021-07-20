@@ -58,5 +58,9 @@ void main() {
     expect(utms[0].zoneNumber, equals(32));
     expect(utms[1].zoneLetter, equals('V'));
     expect(utms[1].zoneNumber, equals(32));
+    expect(utms[0].easting, closeTo(561286.37220385, 0.1));
+    expect(utms[0].northing, closeTo(6368259.47923512, 0.1));
+    expect(utms[1].easting, closeTo(799879.76122786, 0.1));
+    expect(utms[1].northing, closeTo(6378839.86148105, 0.1));
   });
 }
