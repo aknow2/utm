@@ -9,6 +9,13 @@ class _GeoSysParam {
   _GeoSysParam(this.r, this.e);
 }
 
+class _EastingAndNorthing {
+  final double easting;
+  final double northing;
+
+  _EastingAndNorthing(this.easting, this.northing);
+}
+
 final Map<GeodeticSystemType, _GeoSysParam> _geoSysMap = {
   GeodeticSystemType.wgs84: _GeoSysParam(6378137, 0.00669438),
   GeodeticSystemType.grs80: _GeoSysParam(6378137, 0.00669438),
@@ -139,11 +146,11 @@ class UtmConverter {
     final zoneLetter = _lat2zoneLetter(lat);
     final zoneNumber = _latlon2zoneNumber(lat, lon);
 
-    final eastingNorthing =
+    final eastingAndNorthing =
         _calculateEastingNorthing(lat, lon, zoneNumber, zoneLetter);
 
-    return UtmCoordinate(lat, lon, eastingNorthing[0], eastingNorthing[1],
-        zoneNumber, _lat2zoneLetter(lat));
+    return UtmCoordinate(lat, lon, eastingAndNorthing.easting,
+        eastingAndNorthing.northing, zoneNumber, _lat2zoneLetter(lat));
   }
 
   /// convert to list of UTM from list of lat&lon
@@ -153,16 +160,22 @@ class UtmConverter {
     final zoneLetter = _lat2zoneLetter(lat[0]);
 
     for (var i = 0; i < lat.length; i++) {
-      final eastingNorthing =
+      final eastingAndNorthing =
           _calculateEastingNorthing(lat[i], lon[i], zoneNumber, zoneLetter);
 
-      utmCoordinates.add(UtmCoordinate(lat[i], lon[i], eastingNorthing[0],
-          eastingNorthing[1], zoneNumber, zoneLetter));
+      utmCoordinates.add(UtmCoordinate(
+          lat[i],
+          lon[i],
+          eastingAndNorthing.easting,
+          eastingAndNorthing.northing,
+          zoneNumber,
+          zoneLetter));
     }
     return utmCoordinates;
   }
 
-  List<double> _calculateEastingNorthing(lat, lon, zoneNumber, zoneLetter) {
+  _EastingAndNorthing _calculateEastingNorthing(
+      lat, lon, zoneNumber, zoneLetter) {
     final latRad = Angle.degrees(lat).radians;
     final latSin = math.sin(latRad);
     final latCos = math.cos(latRad);
@@ -207,7 +220,7 @@ class UtmConverter {
                                 600 * c -
                                 330 * _eP2))) +
         offset;
-    return [easting, northing];
+    return _EastingAndNorthing(easting, northing);
   }
 
   String _lat2zoneLetter(double lat) {
