@@ -31,7 +31,7 @@ void validateUtmZone({
     throw RangeError.value(easting);
   }
   if (northing < 0) {
-    throw RangeError.value(easting);
+    throw RangeError.value(northing);
   }
   if (zoneNumber < _minZone || _maxZone < zoneNumber) {
     throw RangeError.range(zoneNumber, _minZone, _maxZone);
