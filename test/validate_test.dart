@@ -45,4 +45,10 @@ void main() {
             easting: 1, northing: 1, zoneNumber: 1, zoneLetter: 'Z'),
         throwsArgumentError);
   });
+  test('invalid argument length', () {
+    expect(
+        () => UTM.fromMultipleLatLon(
+            lat: [57.452869, 57.452869], lon: [10.021325, 14.000000, 0.0]),
+        throwsArgumentError);
+  });
 }
