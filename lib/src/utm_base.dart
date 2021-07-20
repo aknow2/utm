@@ -43,4 +43,27 @@ class UTM {
     validateRangeOfLatLon(lat: lat, lon: lon);
     return UtmConverter(type).latlonToUtm(lat, lon);
   }
+
+  /// create List<[UtmCoordinate]> from multiple latitudes & longitudes
+  /// The UTM zone number and letter are scalars and will be calculated for
+  /// the first index of the given List<[lat]> and List<[lon]>
+  /// All other points will be set into the same UTM zone.
+  /// Therefore it's a good idea to make sure all points are near each other
+  /// in order to avoid distortion.
+  /// List<[lat]> latitudes between -80 and 84 deg
+  /// List<[lon]> longitudes between -180 and 180 deg
+  /// [type] type of Geodetic System. Default is WGS84. see [GeodeticSystemType]
+  static List<UtmCoordinate> fromMultipleLatLon({
+    required List<double> lat,
+    required List<double> lon,
+    GeodeticSystemType type = GeodeticSystemType.wgs84,
+  }) {
+    validateLengthListOfLatLon(lat: lat, lon: lon);
+
+    for (var i = 0; i < lat.length; i++) {
+      validateRangeOfLatLon(lat: lat[i], lon: lon[i]);
+    }
+
+    return UtmConverter(type).multipleLatlonToUtm(lat, lon);
+  }
 }
